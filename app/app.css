@@ -5,18 +5,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
-
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+  background-color: #0a0a0f;
+  color: #e4e4e7;
+  color-scheme: dark;
+  min-height: 100%;
 }
 
 :root {
@@ -88,6 +87,30 @@ body {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@theme {
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --animate-float: float 5s ease-in-out infinite;
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.4;
+    }
+    25% {
+      transform: translate(10px, -15px) scale(1.1);
+      opacity: 0.7;
+    }
+    50% {
+      transform: translate(-5px, -25px) scale(0.9);
+      opacity: 0.5;
+    }
+    75% {
+      transform: translate(-15px, -10px) scale(1.05);
+      opacity: 0.6;
+    }
+  }
+}
+
 @theme inline {
   --font-sans: 'Geist Variable', sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
@@ -130,14 +153,25 @@ body {
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply font-sans;
   }
   html {
     @apply font-sans;
+  }
+  /* Respect reduced motion for animations */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

@@ -8,6 +8,9 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
+import i18n from "@/i18n";
+import { useLanguageSync } from "@/shared/hooks/use-language-sync";
+import { PageLoadBlur } from "@/shared/ui/page-load-blur/page-load-blur";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -25,7 +28,7 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -42,19 +45,26 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  useLanguageSync();
+  return (
+    <>
+      <PageLoadBlur />
+      <Outlet />
+    </>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
+  let message = i18n.t("errors.oops");
+  let details = i18n.t("errors.unexpected");
   let stack: string | undefined;
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
+    message =
+      error.status === 404 ? i18n.t("errors.notFound") : i18n.t("errors.error");
     details =
       error.status === 404
-        ? "The requested page could not be found."
+        ? i18n.t("errors.notFoundDetails")
         : error.statusText || details;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;
