@@ -5,7 +5,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "react-router";
+
+import { useEffect } from "react";
 
 import type { Route } from "./+types/root";
 import i18n from "@/i18n";
@@ -43,6 +46,9 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const isProduction = import.meta.env.MODE === "production";
+  const gtagId = import.meta.env.VITE_GTAG_ID;
+
   return (
     <html lang="en" className="dark">
       <head>
@@ -50,6 +56,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        {isProduction && gtagId && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${gtagId}`}
+            />
+            <script
+              // Inline config is required by Google, keep minimal
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${gtagId}', { send_page_view: false });
+                `,
+              }}
+            />
+          </>
+        )}
       </head>
       <body>
         <a
@@ -67,6 +92,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    // Only run when gtag is available (after script loads)
+    const gtag = (window as any).gtag as
+      | ((...args: unknown[]) => void)
+      | undefined;
+    if (!gtag) return;
+
+    gtag("event", "page_view", {
+      page_path: location.pathname + location.search,
+    });
+  }, [location]);
+
   useLanguageSync();
   return (
     <>
