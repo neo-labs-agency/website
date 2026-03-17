@@ -4,30 +4,31 @@ import { GlassCard } from "@/shared/ui";
 import { Instagram, Linkedin, Mail, Phone } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 
+export const socialLinks = [
+  {
+    href: "https://www.instagram.com/neo.labs.agency",
+    icon: Instagram,
+    labelKey: "contact.social.instagram" as const,
+  },
+  {
+    href: "tel:+37444771769",
+    icon: Phone,
+    labelKey: "contact.social.phone" as const,
+  },
+  {
+    href: "https://www.linkedin.com/company/neo-labs-agency",
+    icon: Linkedin,
+    labelKey: "contact.social.linkedin" as const,
+  },
+  {
+    href: "mailto:neo.labs.agency@gmail.com",
+    icon: Mail,
+    labelKey: "contact.social.email" as const,
+  },
+];
+
 export function Contact({ className }: { className?: string }) {
   const { t } = useTranslation();
-  const socialLinks = [
-    {
-      href: "https://www.instagram.com/neo.labs.agency",
-      icon: Instagram,
-      labelKey: "contact.social.instagram" as const,
-    },
-    {
-      href: "tel:+37444771769",
-      icon: Phone,
-      labelKey: "contact.social.phone" as const,
-    },
-    {
-      href: "https://www.linkedin.com/company/neo-labs-agency",
-      icon: Linkedin,
-      labelKey: "contact.social.linkedin" as const,
-    },
-    {
-      href: "mailto:neo.labs.agency@gmail.com",
-      icon: Mail,
-      labelKey: "contact.social.email" as const,
-    },
-  ];
 
   return (
     <section

@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/shared/ui";
 import { cn } from "@/shared/lib/utils";
+import { socialLinks } from "@/widgets/contact/ui/contact";
 
 const PARTICLE_COUNT = 60;
 
@@ -66,6 +67,21 @@ export function Hero({ className }: { className?: string }) {
           <Button asChild variant="outline" size="lg">
             <Link to="#services">{t("hero.viewServices")}</Link>
           </Button>
+        </div>
+
+        <div className="mt-4 lg:mt-8 flex flex-wrap items-center justify-center gap-6">
+          {socialLinks.map(({ href, icon: Icon, labelKey }) => (
+            <a
+              key={labelKey}
+              target="_blank"
+              href={href}
+              aria-label={t(labelKey)}
+              className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/80 backdrop-blur-sm transition-all hover:border-[#7B3FE4]/50 hover:bg-white/10 hover:text-[#9D6BF7]"
+              rel="noreferrer"
+            >
+              <Icon className="size-5" />
+            </a>
+          ))}
         </div>
       </div>
     </section>
