@@ -28,7 +28,10 @@ export function Services({ className }: { className?: string }) {
     >
       <div className="mx-auto max-w-6xl">
         <h2 className="mb-4 text-center text-3xl font-bold text-white sm:text-4xl md:text-5xl">
-          {t("services.title")} <span className="text-[#9D6BF7]">{t("services.brand")}</span>
+          {t("services.title")}{" "}
+          <span style={{ wordBreak: "break-all" }} className="text-[#9D6BF7]">
+            {t("services.brand")}
+          </span>
         </h2>
         <p className="mx-auto mb-16 max-w-2xl text-center text-white/70">
           {t("services.subtitle")}

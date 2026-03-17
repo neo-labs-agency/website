@@ -26,6 +26,7 @@ const FORM_ID: string = import.meta.env.VITE_FORM_ID ?? "";
 
 export function ContactForm({ className }: ContactFormProps) {
   const { t } = useTranslation();
+  const [success, setSuccess] = React.useState(false);
   const {
     register,
     handleSubmit: handleFormSubmit,
@@ -42,7 +43,6 @@ export function ContactForm({ className }: ContactFormProps) {
     error,
     reset: resetMutation,
   } = useSWRMutation(SUBMIT_KEY, submitContactForm);
-  const [success, setSuccess] = React.useState(false);
 
   const onValidSubmit = React.useCallback(
     (formData: ContactFormValues) => {

@@ -14,6 +14,7 @@ import { PageLoadBlur } from "@/shared/ui/page-load-blur/page-load-blur";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
+  // Preconnect + fonts
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -23,6 +24,33 @@ export const links: Route.LinksFunction = () => [
   {
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+  },
+
+  // Favicons & PWA assets from /public/favicon
+  {
+    rel: "icon",
+    type: "image/x-icon",
+    href: "/favicon/favicon.ico",
+  },
+  {
+    rel: "icon",
+    type: "image/svg+xml",
+    href: "/favicon/favicon.svg",
+  },
+  {
+    rel: "icon",
+    type: "image/png",
+    sizes: "96x96",
+    href: "/favicon/favicon-96x96.png",
+  },
+  {
+    rel: "apple-touch-icon",
+    sizes: "180x180",
+    href: "/favicon/apple-touch-icon.png",
+  },
+  {
+    rel: "manifest",
+    href: "/favicon/site.webmanifest",
   },
 ];
 
@@ -36,6 +64,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-[#0A0A0F] focus:px-4 focus:py-2 focus:text-sm focus:text-white focus:outline-none focus:ring-2 focus:ring-[#9D6BF7]"
+        >
+          Skip to main content
+        </a>
         {children}
         <ScrollRestoration />
         <Scripts />

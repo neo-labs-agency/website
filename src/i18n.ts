@@ -18,18 +18,24 @@ export type SupportedLng = (typeof supportedLngs)[number];
 
 export function getSavedOrDetectedLng(): SupportedLng {
   if (typeof window === "undefined") return "en";
+
   const stored = localStorage.getItem("neo-labs-lng");
   if (stored && supportedLngs.includes(stored as SupportedLng))
     return stored as SupportedLng;
-  const browser = navigator.language.split("-")[0];
-  if (supportedLngs.includes(browser as SupportedLng))
-    return browser as SupportedLng;
+
+  const full = navigator.language; // e.g. "zh-TW"
+  const short = full.split("-")[0]; // e.g. "zh"
+
+  if (supportedLngs.includes(full as SupportedLng)) return full as SupportedLng;
+  if (supportedLngs.includes(short as SupportedLng))
+    return short as SupportedLng;
+
   return "en";
 }
 
-i18n.use(initReactI18next).init({
+void i18n.use(initReactI18next).init({
   resources,
-  lng: "en",
+  lng: getSavedOrDetectedLng(),
   fallbackLng: "en",
   supportedLngs: [...supportedLngs],
   interpolation: {

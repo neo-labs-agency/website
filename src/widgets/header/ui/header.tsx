@@ -3,14 +3,14 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/shared/lib/utils";
-import { Logo } from "@/shared/ui/icons/logo";
-import i18n, { supportedLngs, type SupportedLng } from "@/i18n";
+import i18n, { type SupportedLng, supportedLngs } from "@/i18n";
 import {
-  preloadServices,
   preloadAbout,
-  preloadPortfolio,
   preloadContact,
+  preloadPortfolio,
+  preloadServices,
 } from "@/pages/home/ui/home-preloads";
+import { LazyImage } from "@/shared/ui/lazy-load-image";
 
 const sectionPreloadByHash: Record<string, () => void> = {
   "#services": preloadServices,
@@ -94,7 +94,11 @@ export function Header({ className }: { className?: string }) {
           to="/"
           className="flex items-center gap-x-1 text-lg font-semibold text-white transition-colors hover:text-[#9D6BF7] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#9D6BF7] rounded"
         >
-          <Logo aria-hidden /> <span>{t("nav.brand")}</span>
+          <LazyImage
+            className="h-12 w-12 lg:w-16 lg:h-16 bg-transparent"
+            src={"/brand.png"}
+            alt={t("nav.brand")}
+          />
         </Link>
 
         {/* Desktop nav: visible from md up */}

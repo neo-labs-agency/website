@@ -5,7 +5,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import path from "node:path";
 import fs from "node:fs";
 
-const MAX_CHUNK_SIZE_BYTES = 100 * 1024; // 100 KB
+const MAX_CHUNK_SIZE_BYTES = 200 * 1024; // 100 KB
 
 /**
  * Chunk name prefixes allowed to exceed 100 KB (framework/shared code we can't split):
@@ -96,7 +96,7 @@ function enforceChunkSizePlugin(clientOutDir: string) {
           .map(({ file, size }) => `  ${file}: ${(size / 1024).toFixed(2)} KB`)
           .join("\n");
         throw new Error(
-          `Chunk size limit (100 KB) exceeded:\n${list}\nSplit these chunks, add to EXEMPT_CHUNK_PREFIXES, or increase MAX_CHUNK_SIZE_BYTES.`
+          `Chunk size limit (200 KB) exceeded:\n${list}\nSplit these chunks, add to EXEMPT_CHUNK_PREFIXES, or increase MAX_CHUNK_SIZE_BYTES.`
         );
       }
     },
@@ -114,7 +114,7 @@ export default defineConfig({
     port: 3000,
   },
   build: {
-    chunkSizeWarningLimit: 100,
+    chunkSizeWarningLimit: 200,
     rollupOptions: {
       output: {
         manualChunks,

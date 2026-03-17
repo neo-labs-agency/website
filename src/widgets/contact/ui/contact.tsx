@@ -37,7 +37,9 @@ export function Contact({ className }: { className?: string }) {
       <div className="mx-auto max-w-2xl">
         <h2 className="mb-4 text-center text-3xl font-bold text-white sm:text-4xl md:text-5xl">
           {t("contact.title")}{" "}
-          <span className="text-[#9D6BF7]">{t("contact.brand")}</span>
+          <span style={{ wordBreak: "break-all" }} className="text-[#9D6BF7]">
+            {t("contact.brand")}
+          </span>
         </h2>
         <p className="mx-auto mb-12 max-w-lg text-center text-white/70">
           {t("contact.subtitle")}

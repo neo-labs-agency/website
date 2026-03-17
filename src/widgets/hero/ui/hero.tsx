@@ -48,11 +48,13 @@ export function Hero({ className }: { className?: string }) {
       />
       <div className="relative z-10 mx-auto max-w-4xl text-center">
         <h1 className="mb-6 text-5xl font-bold tracking-tight text-white drop-shadow-[0_0_40px_rgba(123,63,228,0.3)] sm:text-6xl md:text-7xl lg:text-8xl">
-          <span className="bg-gradient-to-r from-white via-[#E4E4E7] to-[#9D6BF7] bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-white via-[#E4E4E7] to-[#9D6BF7] bg-clip-text text-transparent">
             {t("hero.title")}
           </span>
           <br />
-          <span className="text-white">{t("hero.agency")}</span>
+          <span className="text-white" style={{ wordBreak: "break-all" }}>
+            {t("hero.agency")}
+          </span>
         </h1>
         <p className="mb-10 text-lg text-white/80 sm:text-xl md:text-2xl">
           {t("hero.tagline")}

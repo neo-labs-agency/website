@@ -7,9 +7,8 @@ export const contactFormSchema = z.object({
     .min(1, "contact.form.errors.nameRequired")
     .min(2, "contact.form.errors.nameMin"),
   email: z
-    .string()
-    .min(1, "contact.form.errors.emailRequired")
-    .email("contact.form.errors.emailInvalid"),
+    .email("contact.form.errors.emailInvalid")
+    .min(1, "contact.form.errors.emailRequired"),
   message: z
     .string()
     .min(1, "contact.form.errors.descriptionRequired")
