@@ -1,87 +1,88 @@
-# Welcome to React Router!
+## Neo Labs Agency — Architecture & Setup
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Neo Labs Agency is a marketing/landing website built on **React Router (Vite)** with a **Feature‑Sliced Design (FSD)** front‑end architecture.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+### Tech stack
 
-## Features
+- **Runtime / framework**: React Router v7 (Vite dev/build), TypeScript
+- **Styling**: Tailwind CSS
+- **i18n**: `i18next`, `react-i18next`, JSON locale files
+- **Forms & validation**: `react-hook-form`, `zod`
+- **Build tooling**: Vite with custom `manualChunks` and a chunk‑size guard plugin
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+### Project layout
 
-## Getting Started
+- **`app/`** – React Router entry and routes (framework layer, outside FSD):
+  - `root.tsx` – HTML shell, Google Analytics wiring, global error boundary, language sync, `PageLoadBlur`
+  - `routes/` – route modules (e.g. `home.tsx`) that compose FSD pages
+- **`src/`** – all application code, organised by **Feature‑Sliced Design**:
+  - **`shared/`** – Reusable, framework‑agnostic pieces:
+    - `ui/` – design‑system primitives (`button`, `glass-card`, `lazy-load-image`, `page-load-blur`, etc.)
+    - `lib/` – helpers like `lazy-with-preload`, general utilities
+    - `hooks/` – cross‑cutting hooks such as `use-language-sync`
+    - `config/` – theming and other shared configuration
+    - `utils/` – generic utilities and re‑exports
+  - **`entities/`** – Domain models and types:
+    - `service/` – service descriptors and types
+    - `project/` – portfolio project types
+  - **`features/`** – User‑level actions and flows:
+    - `contact-form/` – contact form UI, validation schema, submit API client
+  - **`widgets/`** – Page‑level composition blocks:
+    - `header`, `footer`, `hero`, `services`, `about`, `portfolio`, `contact` – each widget glues together features/entities/shared UI
+  - **`pages/`** – Route‑level pages:
+    - `home/` – `HomePage` and preload helpers that assemble the homepage from widgets
+  - **`locales/`** – `en.json`, `ru.json`, `hy.json` locale dictionaries
+  - **`i18n.ts`** – i18next client configuration used by the app shell and features
 
-### Installation
+### Feature‑Sliced Design rules
 
-Install the dependencies:
+- **Import directions**:
+  - `pages` → can import from `widgets`, `features`, `entities`, `shared`
+  - `widgets` → can import from `features`, `entities`, `shared`
+  - `features` → can import from `entities`, `shared`
+  - `entities` → can import from `shared`
+  - `shared` → **must not** import from higher layers
+- **Route layer isolation**:
+  - `app/routes/*` should not reach into low‑level folders directly; they import **pages** (e.g. `@/pages/home`) to keep routing concerns separate from UI/business structure.
 
-```bash
-npm install
-```
+### Vite / build architecture
 
-### Development
+- **Path aliases**: `@/*` points to `src/*` (configured via `vite-tsconfig-paths`), so imports like `@/shared/ui/button` are used instead of long relative paths.
+- **Code‑splitting**:
+  - `vite.config.ts` defines a custom `manualChunks` function that groups chunks by FSD layer (e.g. `shared-ui-button`, `shared-ui-glass-card`, `entities`, `features`, `i18n-app`, `locales`, etc.).
+  - A custom `enforceChunkSizePlugin` fails the build if any non‑exempt JS chunk exceeds **200 KB**, encouraging good bundle hygiene.
 
-Start the development server with HMR:
+### Running the app
 
-```bash
-npm run dev
-```
+- **Install dependencies**:
 
-Your application will be available at `http://localhost:5173`.
+  ```bash
+  npm install
+  ```
 
-## Building for Production
+- **Development** (Vite dev server with HMR):
 
-Create a production build:
+  ```bash
+  npm run dev
+  ```
 
-```bash
-npm run build
-```
+  By default the server runs on `http://localhost:3000` (see `vite.config.ts`).
 
-## Deployment
+- **Build for production**:
 
-### Docker Deployment
+  ```bash
+  npm run build
+  ```
 
-To build and run using Docker:
+  This produces:
 
-```bash
-docker build -t my-app .
+  - `build/client` – static assets served to the browser
+  - `build/server` – server bundle for React Router’s app server
 
-# Run the container
-docker run -p 3000:3000 my-app
-```
+### Deployment notes
 
-The containerized application can be deployed to any platform that supports Docker, including:
+- The generated server bundle is **Node‑ready** and can be deployed to any Node hosting platform (Docker, Render, Railway, Fly.io, etc.).
+- If you use Docker or another container system, ensure you:
+  - Run `npm run build` at image build time.
+  - Serve `build/client` as static assets and run the React Router server from `build/server`.
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
