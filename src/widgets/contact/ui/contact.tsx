@@ -21,7 +21,7 @@ export const socialLinks = [
     labelKey: "contact.social.linkedin" as const,
   },
   {
-    href: "mailto:neo.labs.agency@gmail.com",
+    href: "mailto:support@neolabsagency.com",
     icon: Mail,
     labelKey: "contact.social.email" as const,
   },
