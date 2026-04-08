@@ -23,14 +23,14 @@ const projectsConfig: (Omit<Project, "title" | "category"> & {
     imgUrl:
       "https://images.unsplash.com/photo-1611703523714-663c38cd9f55?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
-  // {
-  //   id: "3",
-  //   translationKey: "bonds",
-  //   gradient: "from-[#5B21B6]/40 to-[#7B3FE4]/20",
-  //   url: "https://bonds-app-zeta.vercel.app/",
-  //   imgUrl:
-  //     "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  // },
+  {
+    id: "4",
+    translationKey: "bonds",
+    gradient: "from-[#5B21B6]/40 to-[#7B3FE4]/20",
+    url: "https://hyper-liquid-project-five.vercel.app/",
+    imgUrl:
+      "https://images.unsplash.com/photo-1609554496796-c345a5335ceb?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
 ];
 
 export function Portfolio({ className }: { className?: string }) {
